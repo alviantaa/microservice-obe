@@ -13,8 +13,68 @@ tags:
     description: Secured Admin-only calls
   - name: developers
     description: Operations available to regular developers
-
+paths:
+  /student-grades:
+    get:
+      tags:
+        - StudentGrade
+      summary: Gets all Student Grade
+      description: >
+        Returns data from student-grades table
+      operationId: getAllStudentGrade
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentGrade'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - StudentGrade
+      summary: Adds a student-grade item
+      operationId: addStudentGrade
+      description: Adds an item to the system
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentGrade'
+        description: StudentGrade item to add
 /student-grades/{id}:
+    get:
+      tags:
+        - StudentGrade
+      summary: Gets a student-grade by ID.
+      description: >
+        Returns one data from student-grades table
+      operationId: getStudentGradeById
+      parameters:
+        - name: id
+          in: path
+          description: Student Grade ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentGrade'
     patch:
       tags:
         - StudentGrade

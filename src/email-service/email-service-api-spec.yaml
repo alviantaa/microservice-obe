@@ -1,3 +1,27 @@
 openapi: 3.0.0
 info:
+  title: siobe-email-service
   version: '1.0.0'
+servers:
+  - url: http://{{baseurl}}
+paths:
+  /email:
+    post:
+      summary: send email
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+      responses:
+  /email-debug:
+    post:
+      summary: email debug
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+      responses:

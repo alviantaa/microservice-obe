@@ -28,6 +28,34 @@ paths:
                   type: string
                   format: binary
       responses:
+        '200':
+            description: OK
+            headers:
+              Content-Type:
+                schema:
+                  type: string
+                  example: application/json
+            content:
+              application/json:
+                schema:
+                  type: object
+                example:
+                  status: success
+                  message: email sent
+          '500':
+            description: Internal Server Error
+            headers:
+              Content-Type:
+                schema:
+                  type: string
+                  example: application/json
+            content:
+              application/json:
+                schema:
+                  type: object
+                example:
+                  status: error
+                  message: internal server error
   /email-debug:
     post:
       summary: email debug

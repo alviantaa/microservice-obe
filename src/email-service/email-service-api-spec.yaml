@@ -65,4 +65,18 @@ paths:
             schema:
               type: object
               properties:
-      responses:
+                to:
+                  type: string
+                email_subject:
+                  type: string
+                  example: ini email subject
+                email_body:
+                  type: string
+                  example: halo {{user_name}}! {{user_email}} is your email.
+                attachment:
+                  type: string
+                  format: binary
+                data:
+                  type: string
+                  format: binary
+      responses:

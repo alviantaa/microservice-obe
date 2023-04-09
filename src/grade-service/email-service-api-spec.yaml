@@ -1,3 +1,54 @@
 openapi: 3.0.0
 info:
-  version: '1.0.0'
+  description: This is a simple API
+  version: "1.0.0"
+  title: Simple Inventory API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+
+/student-grades/{id}:
+    patch:
+      tags:
+        - StudentGrade
+      summary: Update existing student grades
+      description: Update certain attributes of an existing student grades in database
+      operationId: changeData
+      parameters:
+        - in: path
+          name: id
+          description: Data ID that wants to be updated
+          required: true
+          schema:
+            type: integer
+        - in: header
+          name: body
+          description: Data object that wants to be updated
+          required: true
+          schema:
+            $ref: '#/components/schemas/StudentGrade'
+      responses:
+        '200':
+          description: Data successfully changed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentGrade'
+        '400':
+          description: Request Invalid
+        '404':
+          description: Data not found
+      requestBody:
+        description: The data object that you want to change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentGrade'

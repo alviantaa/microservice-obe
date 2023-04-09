@@ -52,3 +52,19 @@ tags:
           application/json:
             schema:
               $ref: '#/components/schemas/StudentGrade'
+    delete:
+      summary: Delete data
+      description: Delete data by ID
+      operationId: deleteData
+      parameters:
+        - in: path
+          name: id
+          description: ID data that you want to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Data deleted successfully
+        '404':
+          description: Data not found

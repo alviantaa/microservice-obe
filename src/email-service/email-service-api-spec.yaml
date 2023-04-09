@@ -80,3 +80,36 @@ paths:
                   type: string
                   format: binary
       responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                message: email sent
+                data:
+                  to:
+                    - daffa@gmail.com
+                  email_subject: ini email subject
+                  email_body: halo daffa! daffa@gmail.com is your email
+        '500':
+          description: Internal Server Error
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: internal server error

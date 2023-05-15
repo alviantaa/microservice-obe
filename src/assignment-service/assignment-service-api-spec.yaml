@@ -43,6 +43,7 @@ paths:
           description: Successfully created a new assignment
         '400':
           $ref: '#/components/responses/400Error'
+  /assignment/{id}:
      patch:
       description: Lets a user update an assignment
       parameters:

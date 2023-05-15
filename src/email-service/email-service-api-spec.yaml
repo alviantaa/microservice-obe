@@ -14,7 +14,8 @@ paths:
             schema:
               type: object
               properties:
-               type: string
+                to:
+                  type: string
                 email_subject:
                   type: string
                   example: ini email subject

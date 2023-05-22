@@ -1,0 +1,335 @@
+openapi: 3.0.2 
+info:
+  title: Course Service API Specification
+  description: OpenAPI for CourseService API
+  version: 1
+servers:
+  - url: http://localhost:8000
+    description: Course Service API Server
+externalDocs:
+  - url: https://github.com/catherinevania/microservice-obe
+    description: Github Repository
+paths:
+  /course:
+    get:
+      summary: Get all courses
+      description: View all courses from database
+      responses:
+        '200':
+          description: Succesfully get all courses
+          content: 
+            application/json: 
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:
+                    study_program:
+                      type: integer
+                    code:
+                      type: string
+                    name: 
+                      type: string
+                    course_credit:
+                      type: integer
+                    lab_credit:
+                      type: integer
+                    type:
+                      type: string
+                    short_description:
+                      type: string
+                    minimal_requirement:
+                      type: string
+                    study_material_summary:
+                      type: string
+                    learning_media:
+                      type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+    post:
+      summary: Create new courses
+      description: Create new courses to database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                study_program:
+                  type: integer
+                  description: The ID of the study program which this course belongs to
+                  example: 1
+                  enum:
+                  - 1
+                  - 2
+                  - 3
+                  - 4
+                  - 5
+                  required: true
+                code: 
+                  type: string
+                  description: The course's code
+                  example: CIT60037
+                  minLength: 1
+                  maxLength: 255
+                  required: true
+                name:
+                  type: string
+                  description: The course's name
+                  example: Microservice Architecture
+                  minLength: 1
+                  maxLength: 255
+                  required: true
+                course_credit:
+                  type: integer
+                  description: The number of credit hours for the course
+                  example: 3
+                  minLength: 1
+                  maxLength: 6
+                  required: true
+                lab_credit:
+                  type: integer
+                  description: The number of credit hours for the practice course
+                  example: 1
+                  minLength: 0
+                  maxLength: 3
+                  required: true
+                type:
+                  type: string
+                  description: The type of the course
+                  example: Mandatory
+                  enum: 
+                    - Mandatory
+                    - Elective
+                  required: true
+                short_description:
+                  type: string
+                  description: The short description of the course
+                  example: This course introduces students about the fundamental of Microservice Architecture
+                  maxLength: 255
+                  required: false
+                minimal_requirement:
+                  type: string
+                  description: The minimal requirement of the course
+                  example: The students must have taken CIT60037 with minimal grade 80 before taking this course
+                  maxLength: 255
+                  required: false
+                study_material_summary:
+                  type: string
+                  description: The summary of the study materials
+                  maxLength: 255
+                  required: false
+                learning_media:
+                  type: string
+                  description: The media used for course learning
+                  maxLength: 255
+                  required: false
+      responses:
+        '200':
+          description: Succesfully create course
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties:
+                    study_program:
+                      type: integer
+                    code:
+                      type: string
+                    name: 
+                      type: string
+                    course_credit:
+                      type: integer
+                    lab_credit:
+                      type: integer
+                    type:
+                      type: string
+                    short_description:
+                      type: string
+                    minimal_requirement:
+                      type: string
+                    study_material_summary:
+                      type: string
+                    learning_media:
+                      type: string
+        '401':
+          description: User Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '409':
+          description: Conflict - invalid duplicates 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /course/{id}:
+    get:
+      summary: Get a course by ID
+      description: View a course with certain ID
+      parameters:
+        - name: id
+          in: path
+          description: ID of the course to retrieve
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Succesfully get courses by ID
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties:
+                    study_program:
+                      type: integer
+                    code:
+                      type: string
+                    name: 
+                      type: string
+                    course_credit:
+                      type: integer
+                    lab_credit:
+                      type: integer
+                    type:
+                      type: string
+                    short_description:
+                      type: string
+                    minimal_requirement:
+                      type: string
+                    study_material_summary:
+                      type: string
+                    learning_media:
+                      type: string
+        '404':
+          description: Course not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    patch:
+      summary: Update existing course
+      description: Update certain attributes of an existing course in database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                study_program:
+                  type: integer
+                  enum:
+                  - 1
+                  - 2
+                  - 3
+                  - 4
+                  - 5
+                code: 
+                  type: string
+                name:
+                  type: string
+                course_credit:
+                  type: integer
+                lab_credit:
+                  type: integer
+                type:
+                  type: string
+                  enum: 
+                    - Mandatory
+                    - Elective
+                short_description:
+                  type: string
+                minimal_requirement:
+                  type: string
+                study_material_summary:
+                  type: string
+                learning_media:
+                  type: string
+      responses:
+        '200':
+          description: Succesfully update course
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties:
+                    study_program:
+                      type: integer
+                    code:
+                      type: string
+                    name: 
+                      type: string
+                    course_credit:
+                      type: integer
+                    lab_credit:
+                      type: integer
+                    type:
+                      type: string
+                    short_description:
+                      type: string
+                    minimal_requirement:
+                      type: string
+                    study_material_summary:
+                      type: string
+                    learning_media:
+                      type: string
+        '404':
+          description: Course not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+    delete:
+      summary: Delete existing course
+      description: Delete existing course from database
+      parameters:
+        - name: id
+          in: path
+          description: ID of the course to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Succesfully delete the course
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  success: 
+                    type: boolean
+        '404':
+          description: Course not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string

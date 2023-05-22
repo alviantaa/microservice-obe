@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Simple API
+  title: Assigenmetn Service API
   description: API for assignment service
 
 servers:

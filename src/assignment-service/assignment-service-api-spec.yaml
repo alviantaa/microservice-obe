@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Assigenmetn Service API
+  title: Assigenment Service API
   description: API for assignment service
 
 servers:
@@ -10,13 +10,13 @@ servers:
 
 
 paths:
-  /assignment:
+  /assignments:
     get:
       description: Returns a list of assignment
       parameters:
       - Role:
         name: role
-        in: path
+        in: body
         description: Check role of user
       responses:
         '200':
@@ -30,7 +30,27 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
           
-  /assignment/create:
+   /assignments/{id}:
+    get:
+      description: Returns a single assignment
+      parameters:
+      - Id:
+        name: id
+        in: path
+        description: Check id of assignment
+      responses:
+        '200':
+          description: Successfully return a single assignment
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Assignment'
+        '400':
+          $ref: '#/components/responses/400Error'
+          
+  /assignments:
     post:
       description: Lets a user create a new assignment
       requestBody:
@@ -44,27 +64,47 @@ paths:
           description: Successfully created a new assignment
         '400':
           $ref: '#/components/responses/400Error'
+        '401':
+          401Error:
+            description: Invalid Assignment Plan
+              content:
+                application/json:
+                  schema:
+                    type: object 
+                    properties:
+                      message: Assignment plan is not exist
+                        type: string
+        '402':
+          402Error:
+            description: Full Assignment Plan
+              content:
+                application/json:
+                  schema:
+                    type: object 
+                    properties:
+                      message: Assignment plan is not available
+                        type: string
           
-  /assignment/{id}/update:
+  /assignments/{id}:
      patch:
       description: Lets a user update an assignment
       parameters:
-        - name: assignment_id
+        - name: id
           in: path
-          required:true
+          required: true
           schema:
-            type:integer
+            type: integer
         - name: assignment_edit
-          in:body
-          required:true
+          in: body
+          required: true
           schema:
             Assignment_edit:
                 type: object
                 properties:
                     due_date:
-                        type:integer
+                        type: integer
                     note:
-                        type:string
+                        type: string
             
       requestBody:
         required: true
@@ -78,11 +118,11 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
           
-  /assignment/{id}/delete:
+  /assignments/{id}/:
     delete:
       description: Delete an assignment
       parameters:
-        - name: assignment_id
+        - name: id
           in: path
           required: true
           schema:
@@ -113,7 +153,7 @@ components:
     Assignment:
       type: object
       properties:
-        assignment_id:
+        id:
             type: integer
         assignment_plan_id:
             type: integer
@@ -149,5 +189,5 @@ components:
           schema:
             type: object 
             properties:
-              message:
+              message: Request is Invalid
                 type: string

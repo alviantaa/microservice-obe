@@ -1,3 +1,116 @@
 openapi: 3.0.0
 info:
+  title: siobe-email-service
   version: '1.0.0'
+servers:
+  - url: http://{{baseurl}}
+paths:
+  /email:
+    post:
+      summary: send email
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                to:
+                  type: string
+                email_subject:
+                  type: string
+                  example: ini email subject
+                email_body:
+                  type: string
+                  example: halo {{user_name}}! {{user_email}} is your email.
+                attachment:
+                  type: string
+                  format: binary
+                data:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+            description: OK
+            headers:
+              Content-Type:
+                schema:
+                  type: string
+                  example: application/json
+            content:
+              application/json:
+                schema:
+                  type: object
+                example:
+                  status: success
+                  message: email sent
+          '500':
+            description: Internal Server Error
+            headers:
+              Content-Type:
+                schema:
+                  type: string
+                  example: application/json
+            content:
+              application/json:
+                schema:
+                  type: object
+                example:
+                  status: error
+                  message: internal server error
+  /email-debug:
+    post:
+      summary: email debug
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                to:
+                  type: string
+                email_subject:
+                  type: string
+                  example: ini email subject
+                email_body:
+                  type: string
+                  example: halo {{user_name}}! {{user_email}} is your email.
+                attachment:
+                  type: string
+                  format: binary
+                data:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                message: email sent
+                data:
+                  to:
+                    - daffa@gmail.com
+                  email_subject: ini email subject
+                  email_body: halo daffa! daffa@gmail.com is your email
+        '500':
+          description: Internal Server Error
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: internal server error

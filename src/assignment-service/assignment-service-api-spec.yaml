@@ -29,7 +29,8 @@ paths:
                   $ref: '#/components/schemas/Assignment'
         '400':
           $ref: '#/components/responses/400Error'
-
+          
+  /assignment/create:
     post:
       description: Lets a user create a new assignment
       requestBody:
@@ -43,7 +44,8 @@ paths:
           description: Successfully created a new assignment
         '400':
           $ref: '#/components/responses/400Error'
-  /assignment/{id}:
+          
+  /assignment/{id}/update:
      patch:
       description: Lets a user update an assignment
       parameters:
@@ -75,7 +77,8 @@ paths:
           description: Successfully update an assignment
         '400':
           $ref: '#/components/responses/400Error'
-
+          
+  /assignment/{id}/delete:
     delete:
       description: Delete an assignment
       parameters:

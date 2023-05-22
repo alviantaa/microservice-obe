@@ -6,7 +6,7 @@ info:
 
 servers:
   - url: https://localhost:8000
-    description:assignment service API server
+    description: assignment service API server
 
 
 paths:

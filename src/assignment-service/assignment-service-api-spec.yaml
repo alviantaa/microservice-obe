@@ -1,3 +1,193 @@
 openapi: 3.0.0
 info:
-  version: '1.0.0'
+  version: 1.0.0
+  title: Assigenment Service API
+  description: API for assignment service
+
+servers:
+  - url: https://localhost:8000
+    description: assignment service API server
+
+
+paths:
+  /assignments:
+    get:
+      description: Returns a list of assignment
+      parameters:
+      - Role:
+        name: role
+        in: body
+        description: Check role of user
+      responses:
+        '200':
+          description: Successfully returned a list of assignment
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Assignment'
+        '400':
+          $ref: '#/components/responses/400Error'
+          
+   /assignments/{id}:
+    get:
+      description: Returns a single assignment
+      parameters:
+      - Id:
+        name: id
+        in: path
+        description: Check id of assignment
+      responses:
+        '200':
+          description: Successfully return a single assignment
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Assignment'
+        '400':
+          $ref: '#/components/responses/400Error'
+          
+  /assignments:
+    post:
+      description: Lets a user create a new assignment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assignment'
+      responses:
+        '200':
+          description: Successfully created a new assignment
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          401Error:
+            description: Invalid Assignment Plan
+              content:
+                application/json:
+                  schema:
+                    type: object 
+                    properties:
+                      message: Assignment plan is not exist
+                        type: string
+        '402':
+          402Error:
+            description: Full Assignment Plan
+              content:
+                application/json:
+                  schema:
+                    type: object 
+                    properties:
+                      message: Assignment plan is not available
+                        type: string
+          
+  /assignments/{id}:
+     patch:
+      description: Lets a user update an assignment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: assignment_edit
+          in: body
+          required: true
+          schema:
+            Assignment_edit:
+                type: object
+                properties:
+                    due_date:
+                        type: integer
+                    note:
+                        type: string
+            
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assignment'
+      responses:
+        '200':
+          description: Successfully update an assignment
+        '400':
+          $ref: '#/components/responses/400Error'
+          
+  /assignments/{id}/:
+    delete:
+      description: Delete an assignment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          
+      responses:
+        '200':
+          description: Successfully delete an assignment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+                
+        '400':
+          $ref: '#/components/responses/400Error'
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+
+  schemas:
+    Assignment:
+      type: object
+      properties:
+        id:
+            type: integer
+        assignment_plan_id:
+            type: integer
+        course_class_id:
+            type: integer
+        assignment_date:
+            type: date
+        due_date:
+            type: date
+        note:
+            type: string
+
+  parameters:
+    Role:
+      name: role
+      in: query
+      description: Check role of user
+      schema:
+        type: string
+      
+    PageOffset:
+      name: offset
+      in: query
+      description: Specifies the page number of the artists to be displayed
+      schema:
+        type: integer
+
+  responses:
+    400Error:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            type: object 
+            properties:
+              message: Request is Invalid
+                type: string

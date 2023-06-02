@@ -4,8 +4,9 @@ import config from "../config/index.js";
 import * as dto from "../dto/index.js";
 import * as api_res from "../sdk/api_res/api_res.js";
 import EmailService from "../services/email_service.js";
+import * as emailrepo from "../repositories/email_repository.js";
 
-const emailService = new EmailService();
+const emailService = new EmailService(emailrepo);
 
 /*
  *  @description for sending email and creating the record in db.

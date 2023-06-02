@@ -5,10 +5,13 @@ import config from "../config/index.js";
 import mailer from "../sdk/mailer/index.js";
 import Errors from "../sdk/errors/errors.js";
 import * as constants from "../constants/index.js";
-import * as emailrepo from "../repositories/email_repository.js";
 
 export default class EmailService {
-  constructor() {}
+  emailrepo;
+
+  constructor(emailrepo) {
+    this.emailrepo = emailrepo;
+  }
 
   /*
    *    all parameters is required ;) except for data
@@ -44,7 +47,7 @@ export default class EmailService {
       email.rejected = info.rejected;
       email.messageId = info.messageId;
       email.status = constants.EMAIL_STATUS_SENT;
-      emailrepo.create(email); // create the record in db
+      this.emailrepo.create(email); // create the record in db
     } catch (error) {
       // data is expected to be validated first
       throw new Errors(error, httpcode.INTERNAL_SERVER_ERROR);
@@ -73,7 +76,7 @@ export default class EmailService {
    */
   async getEmails(limit, skip, search) {
     try {
-      return await emailrepo.getEmails(limit, skip, search);
+      return await this.emailrepo.getEmails(limit, skip, search);
     } catch (error) {
       throw new Errors(error.message, httpcode.INTERNAL_SERVER_ERROR);
     }
@@ -86,7 +89,7 @@ export default class EmailService {
   async getById(id) {
     let email;
     try {
-      email = await emailrepo.getById(id);
+      email = await this.emailrepo.getById(id);
 
       if (email == null) {
         throw new Errors("email not found", httpcode.NOT_FOUND);
@@ -104,7 +107,7 @@ export default class EmailService {
    */
   async deleteById(id) {
     try {
-      const deletedCount = await emailrepo.deleteById(id);
+      const deletedCount = await this.emailrepo.deleteById(id);
       if (deletedCount === 0)
         throw new Errors("emails not found", httpcode.NOT_FOUND);
     } catch (error) {
@@ -148,7 +151,7 @@ export default class EmailService {
     }
 
     try {
-      let { n, nModified, ok } = await emailrepo.updateToSent(id);
+      let { n, nModified, ok } = await this.emailrepo.updateToSent(id);
     } catch (error) {
       throw new Errors(error.message, httpcode.INTERNAL_SERVER_ERROR);
     }

@@ -1,8 +1,12 @@
 import express from "express";
 import config from "./config/index.js";
 import routes from "./routes.js";
+import mongo from "./db/mongo/conn.js";
 
 const app = express();
+
+// connection to db
+await mongo.connectDB();
 
 routes(app);
 

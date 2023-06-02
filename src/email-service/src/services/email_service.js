@@ -78,4 +78,23 @@ export default class EmailService {
       throw new Errors(error.message, httpcode.INTERNAL_SERVER_ERROR);
     }
   }
+
+  /*
+   *    @throws {Errors}
+   *    @returns {entities.email}
+   */
+  async getById(id) {
+    let email;
+    try {
+      email = await emailrepo.getById(id);
+
+      if (email == null) {
+        throw new Errors("email not found", httpcode.NOT_FOUND);
+      }
+    } catch (error) {
+      throw new Errors(error, httpcode.INTERNAL_SERVER_ERROR);
+    }
+
+    return email;
+  }
 }

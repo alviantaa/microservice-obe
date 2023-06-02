@@ -88,3 +88,25 @@ export async function getEmails(limit = 10, skip = 0, search) {
     totalElement: totalElement,
   };
 }
+
+/*
+ *  @throws {Error} Throws an error if the operation fails
+ *  @returns {Number} deletedCount
+ */
+export async function deleteById(id) {
+  const { acknowledged, deletedCount } = await entities.Email.deleteOne({
+    _id: id,
+  });
+  if (!acknowledged) {
+    throw new Error("server error, bad connection?");
+  }
+  return deletedCount;
+}
+
+/*
+ *  @throws {Error} Throws an error if the operation fails
+ *  @returns {entities.Email} deletedCount
+ */
+export async function getById(id) {
+  return await entities.Email.findById(id);
+}

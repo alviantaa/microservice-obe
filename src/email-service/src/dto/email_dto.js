@@ -154,3 +154,21 @@ export class getEmailsResponse {
     this.info = info;
   }
 }
+
+export class IdMongoRequest {
+  id;
+
+  constructor(id) {
+    this.id = id;
+  }
+
+  static schema = Joi.object({
+    id: Joi.string()
+      .regex(/^[0-9a-fA-F]{24}$/)
+      .required(),
+  });
+
+  validate(...options) {
+    return IdMongoRequest.schema.validate(this, ...options);
+  }
+}

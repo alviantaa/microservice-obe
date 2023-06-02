@@ -115,3 +115,24 @@ export async function getEmails(req, res) {
   const response = new dto.emailDto.getEmailsResponse(emails, payload);
   return api_res.success(res, httpcode.OK, "get emails success", response);
 }
+
+/*
+ *  @description get email record in db by id
+ */
+export async function getEmailById(req, res) {
+  let payload = new dto.emailDto.IdMongoRequest(req.params.id);
+
+  let { error } = payload.validate();
+  if (error) {
+    return api_res.failOrError(res, httpcode.BAD_REQUEST, "bad request");
+  }
+
+  let email;
+  try {
+    email = await emailService.getById(payload.id);
+  } catch (error) {
+    return api_res.failOrError(res, error.code, error.message);
+  }
+
+  return api_res.success(res, httpcode.OK, "email found", email);
+}

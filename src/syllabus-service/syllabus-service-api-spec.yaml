@@ -1,3 +1,491 @@
 openapi: 3.0.0
 info:
   version: '1.0.0'
+  title: Syallabus Service API Specification
+  description: OpenAPI for Course Class API
+services:
+  - url: https://localhost:8000
+    description: Syallabus Service API Server
+paths:
+  /syllabi:
+    get:
+      summary: Get all syllabi
+      description: View all syllabi from database
+      responses:
+        '200':
+          description: Succesfully get all syllabi
+          content: 
+            application/json: 
+              schema: 
+                type: array
+                items:
+                  $ref: '#/schemas/Syllabus_Information'
+                  
+  #create   
+  /syllabi/create:
+    post:
+      summary: Create new syllabi
+      description: Create new syllabi to database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: 
+                  type: integer
+                  description: The course's id
+                  example: 1
+                title: 
+                  type: string
+                  description: The syllabus's title
+                author:
+                  type: string
+                  description: The syllabus's author
+                head_of_study_program:
+                  type: string
+                  description: The syllabus's head_of_study_program
+      responses:
+        '200':
+          description: Succesfully create syallabus
+        '401':
+          description: Syllabus not found
+        '409':
+          description: Conflict - invalid duplicates
+
+  /syllabi/{id}:
+    get:
+      summary: Get syllabi by id
+      description: View syllabi from database
+      responses:
+        '200':
+          description: Succesfully get syllabi
+          content: 
+            application/json: 
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    title: 
+                      type: string
+                    author:
+                      type: string
+                    course:
+                      type: string
+                    position: 
+                      type: integer
+                    code:
+                      type: string
+                    description:
+                      type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  
+  
+  
+  
+  /syallabus/llo:
+    get:
+      summary: Get all lesson learning outcomes
+      description: View all lesson learning outcomes from database
+      responses:
+        '200':
+          description: Succesfully get all lesson learning outcomes
+          content: 
+            application/json: 
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:
+                    clo_id:
+                      type: integer
+                    position:
+                      type: integer
+                    description:
+                      type: string
+                    code:
+                      type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    post:
+      summary: Create new lesson learning outcome
+      description: Create new lesson learning outcome to database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                number: 
+                  type: integer
+                  description: The lesson learning outcome's number
+                  example: 1
+                code: 
+                  type: string
+                  description: The lesson learning outcome's code
+                  example: "1"
+                description:
+                  type: string
+                  description: The lesson learning outcome's description
+                  example: "2"
+      responses:
+        '200':
+          description: Succesfully create class
+        '401':
+          description: Syllabus not found
+        '409':
+          description: Conflict - invalid duplicates
+          
+  # clo
+  /syallabus/clo:
+    get:
+      summary: Get all course learning outcomes
+      description: View all course learning outcomes from database
+      responses:
+        '200':
+          description: Succesfully get all course learning outcomes
+          content: 
+            application/json: 
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:
+                    number: 
+                      type: integer
+                    code:
+                      type: string
+                    description:
+                      type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    post:
+      summary: Create new course learning outcome
+      description: Create new course learning outcome to database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                number: 
+                  type: integer
+                  description: The course learning outcome's number
+                  example: 1
+                code: 
+                  type: string
+                  description: The course learning outcome's code
+                  example: "2"
+                description:
+                  type: string
+                  description: The course learning outcome's description
+                  example: "1"
+      responses:
+        '200':
+          description: Succesfully create coruse learning outcome
+        '401':
+          description: Syllabus not found
+        '409':
+          description: Conflict - invalid duplicates
+          
+  # ilo
+  /syallabus/ilo:
+    get:
+      summary: Get all intended learning outcome
+      description: View all intended learning outcomes from database
+      responses:
+        '200':
+          description: Succesfully get all intended learning outcomes
+          content: 
+            application/json: 
+              schema: 
+                type: array
+                items:
+                  type: object
+                  properties:
+                    number: 
+                      type: integer
+                    code:
+                      type: string
+                    description:
+                      type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    post:
+      summary: Create new intended learning outcome
+      description: Create new intended learning outcome to database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                number: 
+                  type: integer
+                  description: The intended learning outcome's number
+                  example: 1
+                code: 
+                  type: string
+                  description: The intended learning outcome's code
+                  example: "a"
+                description:
+                  type: string
+                  description: The intended learning outcome's description
+                  example: "b"
+      responses:
+        '200':
+          description: Succesfully create intended learning outcome
+        '401':
+          description: Syllabus not found
+        '409':
+          description: Conflict - invalid duplicates
+
+  /learning-plan:
+    get:
+      summary: Get a learning plan
+      description: View a learning plan
+      responses:
+        '200':
+          description: Succesfully get a learning plan
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties:
+                    title:
+                      type: string
+                    week:
+                      type: string
+                    intended_learning_outcome:
+                      type: object
+                    course_learning_outcome:
+                      type: object
+                    lesson_learning_outcome:
+                      type: object
+                    study_material:
+                      type: object
+                    learning_method:
+                      type: string
+                    estimated time:
+                      type: string
+        '404':
+          description: Course not found
+
+    patch:
+      summary: Update existing syllabus
+      description: Update certain attributes of an existing syllabus in database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                week:
+                  type: string
+                intended_learning_outcome:
+                  type: object
+                course_learning_outcome:
+                  type: object
+                lesson_learning_outcome:
+                  type: object
+                study_material:
+                  type: object
+                learning_method:
+                  type: string
+                estimated time:
+                  type: string
+                  
+      responses:
+        '200':
+          description: Succesfully update learning plan
+
+        '404':
+          description: Course classes not found
+
+    delete:
+      summary: Delete existing learning plan
+      description: Delete existing learning plan from database
+      parameters:
+        - name: learning_plan_id
+          in: path
+          description: ID of the learning plan to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Succesfully delete the learning plan
+
+        '404':
+          description: The learning plan not found
+  
+  components:
+    securitySchemes:
+      BasicAuth:
+      type: http
+      scheme: basic
+
+    schemas:
+      Syllabus_Information:
+        type: object
+        properties:
+          id:
+            type: integer
+          title: 
+            type: string
+          author:
+            type: string
+          course:
+            type: string
+            
+      Course_Information:
+        type: object
+        properties:
+          study_program_id:
+            type: integer
+          creator_user_id:
+            type: integer
+          name:
+            type: integer
+          code:
+            type: date
+          course_credit:
+            type: date
+          lab_credit:
+            type: string
+          type:
+            type: string
+          short_description:
+           type: string
+          minimal_requirement:
+            type: string
+          study_material_summary:
+            type: string
+          learning_media:
+            type: string
+          
+      ILO:
+        type: object
+        properties:
+          syllabus_id:
+            type: integer
+          position:
+            type: integer
+          description:
+            type: string
+          code:
+            type: string
+            
+      CLO:
+        type: object
+        properties:
+          ilo_id:
+            type: integer
+          position:
+            type: integer
+          description:
+            type: string
+          code:
+            type: string
+      
+      LLO:
+        type: object
+        properties:
+          clo_id:
+            type: integer
+          position:
+            type: integer
+          description:
+            type: string
+          code:
+            type: string
+            
+      learning_plans:
+        type: object
+        properties:
+          syllabus_id:
+            type: integer
+          week_number:
+            type: integer
+          llo_id:
+            type: integer
+          study_material:
+            type: string
+          learning_method:
+            type: string
+          estimated_time:
+            type: string
+      
+      assignment_plans:
+        type: object
+        properties:
+          syllabus_id:
+            type: integer
+          objective:
+            type: string
+          title:
+            type: string
+          is_group_assignment:
+            type: integer
+          assignment_style:
+            type: string
+          description:
+            type: string
+          output_instruction:
+            type: date
+          submission_instruction:
+            type: string
+          deadline_instruction:
+            type: string
+    
+    parameters:
+      Role:
+        name: role
+        in: query
+        description: Check role of user
+        schema:
+          type: string
+        
+      PageOffset:
+        name: offset
+        in: query
+        description: Specifies the page number of the artists to be displayed
+        schema:
+          type: integer

@@ -70,3 +70,48 @@ export async function sendEmailDebug(req, res) {
   };
   return api_res.success(res, httpcode.OK, "success", { email: email });
 }
+
+/*
+ *  @description handler for getting emails &
+ *  search email (currently by subject only)
+ */
+export async function getEmails(req, res) {
+  // set pagination within constructor
+  let payload = new dto.emailDto.getEmailsRequest(
+    req.query.limit,
+    req.query.page,
+    req.query.search
+  );
+
+  // validation
+  let { error } = payload.validate();
+  if (error) {
+    return api_res.failOrError(
+      res,
+      httpcode.BAD_REQUEST,
+      "bad request" + error.message
+    );
+  }
+
+  let emails;
+  try {
+    let result = await emailService.getEmails(
+      payload.pagination.limit,
+      payload.pagination.skip,
+      payload.search
+    );
+
+    emails = result.emails;
+    payload.pagination.processPagination(result.totalElement);
+  } catch (error) {
+    return api_res.failOrError(res, error.code, "fail, server error");
+  }
+
+  // if [], 404
+  if (emails.length === 0)
+    return api_res.failOrError(res, httpcode.NOT_FOUND, "it's empty in here");
+
+  // success
+  const response = new dto.emailDto.getEmailsResponse(emails, payload);
+  return api_res.success(res, httpcode.OK, "get emails success", response);
+}

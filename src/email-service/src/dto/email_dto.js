@@ -1,7 +1,6 @@
 import Joi from "joi";
 import * as general_dto from "./general_dto.js";
 
-
 export class SendEmailRequest {
   // req.body
   to;
@@ -9,15 +8,12 @@ export class SendEmailRequest {
   bcc;
   subject;
 
-
   // the body contains 2 type, text & html
   text;
   html;
 
-
   data;
   attachments; //req.files
-
 
   constructor(data, files) {
     if (!data || !files) return;
@@ -29,7 +25,6 @@ export class SendEmailRequest {
     this.html = data.html;
     this.data = data.data;
 
-
     /*  note:
      *  files comes from req.body which is an array of object
      *  each object typically consists of these fields:
@@ -38,11 +33,9 @@ export class SendEmailRequest {
     if (Array.isArray(files)) {
       this.attachments = Array();
 
-
       files.forEach((file) => {
         // if size > 25megabytes, then skip
         if (file.size > 25 * 1024 * 1024) return;
-
 
         // read from BUFFER (other source? not yet implemented)
         // only accept files from these field/s:
@@ -55,12 +48,10 @@ export class SendEmailRequest {
             this.attachments.push(newFile);
             break;
 
-
           default:
             break;
         }
       });
-
 
       if (this.attachments.length === 0) {
         this.attachments = undefined;
@@ -68,11 +59,9 @@ export class SendEmailRequest {
     }
   }
 
-
   static emailToArraySchema = Joi.alternatives(
     Joi.custom((value, helper) => {
       let { error } = Joi.string().email().validate(value);
-
 
       if (error) {
         return helpers.message("any.string");
@@ -81,27 +70,20 @@ export class SendEmailRequest {
       return value;
     }),
 
-
     Joi.array().items(Joi.string().email())
   );
-
 
   static schema = Joi.object({
     to: SendEmailRequest.emailToArraySchema.required(),
 
-
     cc: SendEmailRequest.emailToArraySchema.optional(),
-
 
     bcc: SendEmailRequest.emailToArraySchema.optional(),
 
-
     subject: Joi.string().required(),
-
 
     html: Joi.string().optional(),
     text: Joi.string().optional(),
-
 
     attachments: Joi.array()
       .items(
@@ -111,7 +93,6 @@ export class SendEmailRequest {
         })
       )
       .optional(),
-
 
     data: Joi.optional().custom((value, helpers) => {
       let dataMap;
@@ -127,7 +108,6 @@ export class SendEmailRequest {
     }),
   });
 
-
   validate(...options) {
     // validation == {error, value}
     let validation = SendEmailRequest.schema.validate(this, options);
@@ -139,8 +119,38 @@ export class SendEmailRequest {
     this.cc = validation.value.cc;
     this.bcc = validation.value.bcc;
 
-
     return validation;
   }
 }
 
+export class getEmailsRequest {
+  pagination;
+  search;
+
+  constructor(limit = 10, page = 1, search) {
+    this.pagination = new general_dto.Pagination(limit, page, 50);
+    this.search = search;
+  }
+
+  static schema = Joi.object({
+    search: Joi.string().allow(null, "").optional(),
+    pagination: Joi.required(), //TODO: check instance of Pagination.
+  });
+
+  validate(...options) {
+    let validation = this.pagination.validate();
+    if (validation.error) return validation;
+
+    return getEmailsRequest.schema.validate(this, ...options);
+  }
+}
+
+export class getEmailsResponse {
+  emails; //arrays of email objects
+  info; // info includes Pagination and other data such as search query
+
+  constructor(emails, info) {
+    this.emails = emails;
+    this.info = info;
+  }
+}

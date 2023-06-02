@@ -27,3 +27,64 @@ export async function create(emailEntity) {
     status: emailEntity.status,
   });
 }
+
+/*
+ *  @throws {Error} Throws an error if the operation fails
+ *  @returns {Array} emails, {number} totalElement
+ */
+export async function getEmails(limit = 10, skip = 0, search) {
+  if (search == "" || search == null) search = undefined;
+
+  const pipeline = [];
+
+  if (search) {
+    const regexPattern = new RegExp(search, "i");
+    pipeline.push({
+      $match: {
+        $or: [
+          { subject: { $regex: regexPattern } },
+          { to: { $elemMatch: { $regex: regexPattern } } },
+          { cc: { $elemMatch: { $regex: regexPattern } } },
+          { bcc: { $elemMatch: { $regex: regexPattern } } },
+          { from: { $elemMatch: { $regex: regexPattern } } },
+        ],
+      },
+    });
+  }
+
+  pipeline.push({
+    $facet: {
+      emails: [{ $skip: skip }, { $limit: limit }],
+      totalCount: [
+        {
+          $group: {
+            _id: null,
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            count: 1,
+          },
+        },
+      ],
+    },
+  });
+  // aggregation aneh :(
+
+  let result = await entities.Email.aggregate(pipeline).exec();
+  result = result[0];
+
+  const emails = result.emails;
+  let totalElement;
+  if (!result.totalCount[0])
+    //if doesn't exists, means the count is 0
+    totalElement = 0;
+  else totalElement = result.totalCount[0].count;
+
+  return {
+    emails: emails,
+    totalElement: totalElement,
+  };
+}

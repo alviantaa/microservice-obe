@@ -66,4 +66,16 @@ export default class EmailService {
     }
     return templateText;
   }
+
+  /*
+   *  @throws {Errors}
+   *  @returns {Array} entities.email
+   */
+  async getEmails(limit, skip, search) {
+    try {
+      return await emailrepo.getEmails(limit, skip, search);
+    } catch (error) {
+      throw new Errors(error.message, httpcode.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

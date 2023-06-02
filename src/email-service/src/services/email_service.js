@@ -97,4 +97,18 @@ export default class EmailService {
 
     return email;
   }
+
+  /*
+   *    @throws {Errors}
+   *    @returns {void}
+   */
+  async deleteById(id) {
+    try {
+      const deletedCount = await emailrepo.deleteById(id);
+      if (deletedCount === 0)
+        throw new Errors("emails not found", httpcode.NOT_FOUND);
+    } catch (error) {
+      throw Errors(error, httpcode.INTERNAL_SERVER_ERROR);
+    }
+  }
 }

@@ -136,3 +136,23 @@ export async function getEmailById(req, res) {
 
   return api_res.success(res, httpcode.OK, "email found", email);
 }
+
+/*
+ *  @description delete email record in db by id
+ */
+export async function deleteEmail(req, res) {
+  let payload = new dto.emailDto.IdMongoRequest(req.body.id);
+
+  let { error } = payload.validate();
+  if (error) {
+    return api_res.failOrError(res, httpcode.BAD_REQUEST, "bad request?");
+  }
+
+  try {
+    await emailService.deleteById(payload.id);
+  } catch (error) {
+    return api_res.failOrError(res, error.code, error.message);
+  }
+
+  return api_res.success(res, httpcode.OK, "delete success", {});
+}

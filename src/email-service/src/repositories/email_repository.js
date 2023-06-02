@@ -110,3 +110,21 @@ export async function deleteById(id) {
 export async function getById(id) {
   return await entities.Email.findById(id);
 }
+
+/*
+ *  @throws {Error} Throws an error if the operation fails
+ *  @returns {number} n,{number} nModified,{bool} ok
+ */
+export async function updateToSent(id) {
+  /*
+   *  result : {
+   *    n: The number of documents matched for the update operation.
+   *    nModified: The number of documents modified during the update operation.
+   *    ok: A boolean value indicating if the update operation was successful.
+   *  }
+   */
+  return await entities.Email.updateOne(
+    { _id: id },
+    { $set: { status: constants.EMAIL_STATUS_SENT, updatedAt: Date.now() } }
+  );
+}

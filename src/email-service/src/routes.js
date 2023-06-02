@@ -17,4 +17,9 @@ export default async function routes(app) {
   app.get("/emails", handlers.emailhandler.getEmails);
   app.get("/emails/:id", handlers.emailhandler.getEmailById);
   app.delete("/emails", express.json(), handlers.emailhandler.deleteEmail);
+  app.post(
+    "/emails/resend",
+    express.json(),
+    handlers.emailhandler.resendEmailById
+  );
 }

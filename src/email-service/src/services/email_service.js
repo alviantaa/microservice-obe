@@ -90,12 +90,11 @@ export default class EmailService {
     let email;
     try {
       email = await this.emailrepo.getById(id);
-
-      if (email == null) {
-        throw new Errors("email not found", httpcode.NOT_FOUND);
-      }
     } catch (error) {
       throw new Errors(error, httpcode.INTERNAL_SERVER_ERROR);
+    }
+    if (email == null) {
+      throw new Errors("email not found", httpcode.NOT_FOUND);
     }
 
     return email;

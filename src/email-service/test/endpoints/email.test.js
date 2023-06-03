@@ -75,4 +75,25 @@ describe("email endpoint test", () => {
       expect(res.body.status).toBe(constants.STATUS_FAIL);
     });
   });
+
+  describe("GET /emails/:id get email by id", () => {
+    it("should found email", async () => {
+      const emailId = "617cfa4c9e3f7a001f9a63fd";
+      const res = await supertest(app)
+        .get(`/emails/${emailId}`)
+        .expect(httpcode.OK);
+
+      expect(res.body.status).toBe(constants.STATUS_SUCCESS);
+      expect(res.body.data != null).toBe(true);
+    });
+
+    it("should not found email, 404", async () => {
+      const emailId = "aaaaaaaaaaaaaaaaaaaaaaaa";
+      const res = await supertest(app)
+        .get(`/emails/${emailId}`)
+        .expect(httpcode.NOT_FOUND);
+
+      expect(res.body.status).toBe(constants.STATUS_FAIL);
+    });
+  });
 });

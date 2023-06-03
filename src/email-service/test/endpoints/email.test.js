@@ -22,7 +22,8 @@ describe("email endpoint test", () => {
         .post("/emails")
         .field("from", "test@example.com")
         .attach("attachments", null)
-        .expect(httpcode.BAD_REQUEST);
+        .expect(httpcode.BAD_REQUEST)
+        .expect("Content-Type", /json/);
       expect(res.body.status).toBe(constants.STATUS_FAIL);
     });
 
@@ -34,7 +35,8 @@ describe("email endpoint test", () => {
         .field("subject", "this is email subject")
         .field("html", "html_")
         .field("text", "text_")
-        .expect(httpcode.OK);
+        .expect(httpcode.OK)
+        .expect("Content-Type", /json/);
 
       expect(res.body.status).toBe(constants.STATUS_SUCCESS);
       expect(res.body.data != null).toBe(true);
@@ -55,7 +57,8 @@ describe("email endpoint test", () => {
           JSON.stringify({
             name: "dnabil",
           })
-        );
+        )
+        .expect("Content-Type", /json/);
 
       expect(res.body.data.email.html).toContain("dnabil");
       expect(res.body.data.email.text).toContain("dnabil");
@@ -70,7 +73,8 @@ describe("email endpoint test", () => {
         .field("html", "hi my name is <name>{{name}}</name>!")
         .field("text", "hi my name is {{name}}!")
         .field("data", "name: dnabil")
-        .expect(httpcode.BAD_REQUEST);
+        .expect(httpcode.BAD_REQUEST)
+        .expect("Content-Type", /json/);
 
       expect(res.body.status).toBe(constants.STATUS_FAIL);
     });
@@ -81,7 +85,8 @@ describe("email endpoint test", () => {
       const emailId = "617cfa4c9e3f7a001f9a63fd";
       const res = await supertest(app)
         .get(`/emails/${emailId}`)
-        .expect(httpcode.OK);
+        .expect(httpcode.OK)
+        .expect("Content-Type", /json/);
 
       expect(res.body.status).toBe(constants.STATUS_SUCCESS);
       expect(res.body.data != null).toBe(true);
@@ -91,7 +96,8 @@ describe("email endpoint test", () => {
       const emailId = "aaaaaaaaaaaaaaaaaaaaaaaa";
       const res = await supertest(app)
         .get(`/emails/${emailId}`)
-        .expect(httpcode.NOT_FOUND);
+        .expect(httpcode.NOT_FOUND)
+        .expect("Content-Type", /json/);
 
       expect(res.body.status).toBe(constants.STATUS_FAIL);
     });

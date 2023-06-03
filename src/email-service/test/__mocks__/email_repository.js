@@ -28,7 +28,6 @@ const getById = jest.fn((id) => {
 });
 
 const create = jest.fn(async (emailEntity) => {
-  console.log("mock running");
   const email = new entities.Email({
     to: emailEntity.to,
     cc: emailEntity.cc,

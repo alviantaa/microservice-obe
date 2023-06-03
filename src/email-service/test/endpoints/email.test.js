@@ -40,4 +40,39 @@ describe("email endpoint test", () => {
       expect(res.body.data != null).toBe(true);
     }, 10000);
   });
+
+  describe("POST /emails/debug debug email template endpoint", () => {
+    it("should compile template successfully", async () => {
+      const res = await supertest(app)
+        .post("/emails/debug")
+        .field("from", "test@example.com")
+        .field("to", ["to1@gmail.com", "to2@gmail.com"])
+        .field("subject", "this is email subject")
+        .field("html", "hi my name is <name>{{name}}</name>!")
+        .field("text", "hi my name is {{name}}!")
+        .field(
+          "data",
+          JSON.stringify({
+            name: "dnabil",
+          })
+        );
+
+      expect(res.body.data.email.html).toContain("dnabil");
+      expect(res.body.data.email.text).toContain("dnabil");
+    });
+
+    it("should 400 when passed wrong 'data'", async () => {
+      const res = await supertest(app)
+        .post("/emails/debug")
+        .field("from", "test@example.com")
+        .field("to", ["to1@gmail.com", "to2@gmail.com"])
+        .field("subject", "this is email subject")
+        .field("html", "hi my name is <name>{{name}}</name>!")
+        .field("text", "hi my name is {{name}}!")
+        .field("data", "name: dnabil")
+        .expect(httpcode.BAD_REQUEST);
+
+      expect(res.body.status).toBe(constants.STATUS_FAIL);
+    });
+  });
 });

@@ -44,10 +44,15 @@ export default class EmailService {
       email.rejected = info.rejected;
       email.messageId = info.messageId;
       email.status = constants.EMAIL_STATUS_SENT;
-      await emailrepo.create(email); // create the record in db
     } catch (error) {
-      console.log(error);
-      // data is expected to be validated first
+      email.status = constants.EMAIL_STATUS_NOT_SENT;
+
+      try {
+        await emailrepo.create(email);
+      } catch (error) {
+        throw new Errors(error, httpcode.INTERNAL_SERVER_ERROR);
+      }
+
       throw new Errors(error, httpcode.INTERNAL_SERVER_ERROR);
     }
     return info;

@@ -141,7 +141,7 @@ export async function getEmailById(req, res) {
  *  @description delete email record in db by id
  */
 export async function deleteEmail(req, res) {
-  let payload = new dto.emailDto.IdMongoRequest(req.body.id);
+  let payload = new dto.emailDto.IdMongoRequest(req.params.id);
 
   let { error } = payload.validate();
   if (error) {

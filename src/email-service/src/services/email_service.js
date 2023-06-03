@@ -4,7 +4,7 @@ import handlebars from "handlebars";
 import config from "../config/index.js";
 import mailer from "../sdk/mailer/index.js";
 import Errors from "../sdk/errors/errors.js";
-import emailrepo from "../repositories/email_repository.js";
+import * as emailrepo from "../repositories/email_repository.js";
 import * as constants from "../constants/index.js";
 
 export default class EmailService {

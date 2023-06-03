@@ -5,9 +5,11 @@
  *   3. data (any) optional
  */
 
+import * as constants from "../../constants/index.js";
+
 export function success(res, statusCode, message, data) {
   return res.status(statusCode).json({
-    status: "success",
+    status: constants.STATUS_SUCCESS,
     message: message || "successfully processed your request :)",
     data: data,
   });
@@ -16,7 +18,10 @@ export function success(res, statusCode, message, data) {
 export function failOrError(res, statusCode, message, data) {
   // TODO: LOGGER (if error only?)
   // 4xx means fail, 5xx or else means error
-  const status = statusCode.toString()[0] === "4" ? "fail" : "error";
+  const status =
+    statusCode.toString()[0] === "4"
+      ? constants.STATUS_FAIL
+      : constants.STATUS_ERROR;
 
   return res.status(statusCode).json({
     status: status,

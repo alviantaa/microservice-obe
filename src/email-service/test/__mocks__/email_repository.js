@@ -2,22 +2,34 @@ import entities from "../../src/db/mongo/entities/index.js";
 import * as constants from "../../src/constants/index.js";
 import mongoose from "mongoose";
 
-const getById = jest.fn((id) => {
-  // list of emails (array)
-  let emailList = [
-    new entities.Email({
-      to: ["test@gmail.com"],
-      cc: [],
-      bcc: [],
-      subject: [],
-      from: ["from@gmail.com"],
-      text: "hi from test!",
-      status: constants.EMAIL_STATUS_NOT_SENT,
-      createdAt: Date.now(),
-      _id: "617cfa4c9e3f7a001f9a63fd",
-    }),
-  ];
+// list of emails (array)
+let emailList = [
+  new entities.Email({
+    to: ["test@gmail.com"],
+    cc: [],
+    bcc: [],
+    subject: "ini subject",
+    from: ["from@gmail.com"],
+    text: "hi from test!",
+    status: constants.EMAIL_STATUS_NOT_SENT,
+    createdAt: Date.now(),
+    _id: "617cfa4c9e3f7a001f9a63fd",
+  }),
 
+  new entities.Email({
+    to: ["test@gmail.com"],
+    cc: [],
+    bcc: [],
+    subject: "this will be deleted",
+    from: ["from@gmail.com"],
+    text: "hi from test!",
+    status: constants.EMAIL_STATUS_NOT_SENT,
+    createdAt: Date.now(),
+    _id: "617cfa4c9e3f7a001f9a63f2",
+  }),
+];
+
+const getById = jest.fn((id) => {
   // search through array
   for (const element of emailList) {
     if (element._id.toString() === id) {
@@ -53,7 +65,26 @@ const create = jest.fn(async (emailEntity) => {
   return { acknowledged: true, insertedId: new mongoose.Types.ObjectId() };
 });
 
+const deleteById = async (id) => {
+  const response = {
+    acknowledged: true,
+    deletedCount: 0,
+  };
+
+  for (let i = 0; i < emailList.length; i++) {
+    if (emailList[i]._id.toString() === id) {
+      emailList.splice(i, 1);
+      response.deletedCount = 1;
+      break;
+    }
+  }
+
+  if (!response.acknowledged) throw new Error("server error, bad connection?");
+  return response.deletedCount;
+};
+
 export default {
   getById,
   create,
+  deleteById,
 };

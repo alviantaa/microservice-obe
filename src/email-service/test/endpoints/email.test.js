@@ -12,6 +12,7 @@ jest.mock("../../src/repositories/email_repository.js", () => ({
   ...jest.requireActual("../../src/repositories/email_repository.js"),
   getById: mockemailrepo.getById,
   create: mockemailrepo.create,
+  deleteById: mockemailrepo.deleteById,
 }));
 
 describe("email endpoint test", () => {
@@ -96,6 +97,29 @@ describe("email endpoint test", () => {
       const emailId = "aaaaaaaaaaaaaaaaaaaaaaaa";
       const res = await supertest(app)
         .get(`/emails/${emailId}`)
+        .expect(httpcode.NOT_FOUND)
+        .expect("Content-Type", /json/);
+
+      expect(res.body.status).toBe(constants.STATUS_FAIL);
+    });
+  });
+
+  describe("DELETE /emails delete email by id", () => {
+    it("should delete email successfully", async () => {
+      const emailId = "617cfa4c9e3f7a001f9a63f2";
+      const res = await supertest(app)
+        .delete(`/emails/${emailId}`)
+        .expect(httpcode.OK)
+        .expect("Content-Type", /json/);
+
+      expect(res.body.status).toBe(constants.STATUS_SUCCESS);
+      expect(res.body.data != null).toBe(true);
+    });
+
+    it("should fail to delete email, 404", async () => {
+      const emailId = "aaaaaaaaaaaaaaaaaaaaaaaa";
+      const res = await supertest(app)
+        .delete(`/emails/${emailId}`)
         .expect(httpcode.NOT_FOUND)
         .expect("Content-Type", /json/);
 

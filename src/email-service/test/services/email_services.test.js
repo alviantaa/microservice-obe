@@ -1,42 +1,16 @@
 import httpcode from "http-status-codes";
-import mongoose from "mongoose";
 
-import * as mockConstants from "../../src/constants/index.js"; // tanpa 'mock'.. bakal error?
+import mockemailrepo from "../__mocks__/email_repository.js";
 import emailrepo from "../../src/repositories/email_repository.js";
 import EmailService from "../../src/services/email_service";
-import mockEntities from "../../src/db/mongo/entities/index.js"; // tanpa 'mock'.. bakal error?
 
 // mocking repo module
 jest.mock("../../src/repositories/email_repository.js", () => ({
   ...jest.requireActual("../../src/repositories/email_repository.js"),
-
-  getById: (id) => {
-    // list of emails (array)
-    let emailList = [
-      new mockEntities.Email({
-        to: ["test@gmail.com"],
-        cc: [],
-        bcc: [],
-        subject: [],
-        from: ["from@gmail.com"],
-        text: "hi from test!",
-        status: mockConstants.EMAIL_STATUS_NOT_SENT,
-        createdAt: Date.now(),
-        _id: "617cfa4c9e3f7a001f9a63fd",
-      }),
-    ];
-
-    // search through array
-    for (const element of emailList) {
-      if (element._id.toString() === id) {
-        return Promise.resolve(element);
-      }
-    }
-    return Promise.resolve(null);
-  },
+  getById: mockemailrepo.getById,
 }));
 
-const emailService = new EmailService(emailrepo);
+const emailService = new EmailService();
 
 describe("email service", () => {
   describe("compileTemplate(template, data)", () => {

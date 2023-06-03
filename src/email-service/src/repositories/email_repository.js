@@ -5,7 +5,7 @@ import * as constants from "../constants/index.js";
  * @throws {Error} Throws an error if the operation fails
  */
 export async function create(emailEntity) {
-  entities.Email.create({
+  const info = await entities.Email.create({
     to: emailEntity.to,
     cc: emailEntity.cc,
     bcc: emailEntity.bcc,
@@ -26,6 +26,10 @@ export async function create(emailEntity) {
 
     status: emailEntity.status,
   });
+  if (info.acknowledged == false)
+    throw new Error("server error, operation is not acknowledged");
+
+  return info; // {acknowledged, insertedId}
 }
 
 /*

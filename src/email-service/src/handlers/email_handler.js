@@ -165,7 +165,11 @@ export async function resendEmailById(req, res) {
 
   let { error } = payload.validate();
   if (error) {
-    return api_res.failOrError(res, httpcode.BAD_REQUEST, "bad request");
+    return api_res.failOrError(
+      res,
+      httpcode.BAD_REQUEST,
+      "bad request" + error
+    );
   }
 
   let info;

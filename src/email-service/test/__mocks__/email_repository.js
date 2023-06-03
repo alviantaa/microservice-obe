@@ -27,6 +27,18 @@ let emailList = [
     createdAt: Date.now(),
     _id: "617cfa4c9e3f7a001f9a63f2",
   }),
+
+  new entities.Email({
+    to: ["test@gmail.com"],
+    cc: [],
+    bcc: [],
+    subject: "ini subject",
+    from: ["from@gmail.com"],
+    text: "hi from test!",
+    status: constants.EMAIL_STATUS_SENT,
+    createdAt: Date.now(),
+    _id: "617cfa4c9e3f7a001f9a63f3",
+  }),
 ];
 
 const getById = jest.fn((id) => {
@@ -65,7 +77,7 @@ const create = jest.fn(async (emailEntity) => {
   return { acknowledged: true, insertedId: new mongoose.Types.ObjectId() };
 });
 
-const deleteById = async (id) => {
+const deleteById = jest.fn((id) => {
   const response = {
     acknowledged: true,
     deletedCount: 0,
@@ -81,10 +93,31 @@ const deleteById = async (id) => {
 
   if (!response.acknowledged) throw new Error("server error, bad connection?");
   return response.deletedCount;
-};
+});
+
+const updateToSent = jest.fn((id) => {
+  /*
+   *  result : {
+   *    n: The number of documents matched for the update operation.
+   *    nModified: The number of documents modified during the update operation.
+   *    ok: A boolean value indicating if the update operation was successful.
+   *  }
+   */
+  const result = { n: 0, nModified: 0, ok: false };
+  for (let i = 0; i < emailList.length; i++) {
+    if (emailList[i]._id.toString() === id) {
+      emailList[i].status = constants.SENT;
+      result.n = result.nModified = 1;
+      result.ok = true;
+      break;
+    }
+  }
+  return result;
+});
 
 export default {
   getById,
   create,
   deleteById,
+  updateToSent,
 };

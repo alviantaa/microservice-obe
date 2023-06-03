@@ -13,6 +13,7 @@ jest.mock("../../src/repositories/email_repository.js", () => ({
   getById: mockemailrepo.getById,
   create: mockemailrepo.create,
   deleteById: mockemailrepo.deleteById,
+  updateToSent: mockemailrepo.updateToSent,
 }));
 
 describe("email endpoint test", () => {
@@ -120,6 +121,44 @@ describe("email endpoint test", () => {
       const emailId = "aaaaaaaaaaaaaaaaaaaaaaaa";
       const res = await supertest(app)
         .delete(`/emails/${emailId}`)
+        .expect(httpcode.NOT_FOUND)
+        .expect("Content-Type", /json/);
+
+      expect(res.body.status).toBe(constants.STATUS_FAIL);
+    });
+  });
+
+  describe("POST /emails/resend resend email by id", () => {
+    it("should be sent for email's status==NOT SENT (200)", async () => {
+      const emailId = "617cfa4c9e3f7a001f9a63fd";
+      const res = await supertest(app)
+        .post("/emails/resend")
+        .send({ id: emailId })
+        .set("Content-Type", "application/json")
+        .expect(httpcode.OK)
+        .expect("Content-Type", /json/);
+
+      expect(res.body.status).toBe(constants.STATUS_SUCCESS);
+    });
+
+    it("should not be sent for email's status==SENT (409)", async () => {
+      const emailId = "617cfa4c9e3f7a001f9a63f3";
+      const res = await supertest(app)
+        .post("/emails/resend")
+        .send({ id: emailId })
+        .set("Content-Type", "application/json")
+        .expect(httpcode.CONFLICT)
+        .expect("Content-Type", /json/);
+
+      expect(res.body.status).toBe(constants.STATUS_FAIL);
+    });
+
+    it("should not be found can't resent (404)", async () => {
+      const emailId = "aaaaaaaaaaaaaaaaaaaaaaaa";
+      const res = await supertest(app)
+        .post("/emails/resend")
+        .send({ id: emailId })
+        .set("Content-Type", "application/json")
         .expect(httpcode.NOT_FOUND)
         .expect("Content-Type", /json/);
 

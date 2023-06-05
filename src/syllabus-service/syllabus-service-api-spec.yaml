@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   version: '1.0.0'
-  title: Syallabus Service API Specification
+  title: Syllabus Service API Specification
   description: OpenAPI for Course Class API
 services:
   - url: https://localhost:8000
@@ -155,7 +155,7 @@ paths:
           description: Conflict - invalid duplicates
           
   # clo
-  /syallabus/clo:
+  /syllabus/clo:
     get:
       summary: Get all course learning outcomes
       description: View all course learning outcomes from database
@@ -215,7 +215,7 @@ paths:
           description: Conflict - invalid duplicates
           
   # ilo
-  /syallabus/ilo:
+  /syllabus/ilo:
     get:
       summary: Get all intended learning outcome
       description: View all intended learning outcomes from database

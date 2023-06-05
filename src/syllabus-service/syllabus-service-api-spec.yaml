@@ -1,11 +1,11 @@
 openapi: 3.0.0
 info:
   version: '1.0.0'
-  title: Syllabus Service API Specification
+  title: Syallabus Service API Specification
   description: OpenAPI for Course Class API
 services:
   - url: https://localhost:8000
-    description: Syllabus Service API Server
+    description: Syallabus Service API Server
 paths:
   /syllabi:
     get:
@@ -13,7 +13,7 @@ paths:
       description: View all syllabi from database
       responses:
         '200':
-          description: Successfully get all syllabi
+          description: Succesfully get all syllabi
           content: 
             application/json: 
               schema: 
@@ -21,7 +21,7 @@ paths:
                 items:
                   $ref: '#/schemas/Syllabus_Information'
                   
-  #create   
+  #syllabi   
   /syllabi/create:
     post:
       summary: Create new syllabi
@@ -33,9 +33,9 @@ paths:
             schema:
               type: object
               properties:
-                course: 
-                  type: string
-                  description: The course's name
+                id: 
+                  type: integer
+                  description: The course's id
                   example: 1
                 title: 
                   type: string
@@ -46,12 +46,9 @@ paths:
                 head_of_study_program:
                   type: string
                   description: The syllabus's head_of_study_program
-                creator_user_id:
-                  type: integer
-                  description: The creator user's id
       responses:
         '200':
-          description: Successfully create syllabus
+          description: Succesfully create syallabus
         '401':
           description: Syllabus not found
         '409':
@@ -63,7 +60,7 @@ paths:
       description: View syllabi from database
       responses:
         '200':
-          description: Successfully get syllabi
+          description: Succesfully get syllabi
           content: 
             application/json: 
               schema: 
@@ -73,16 +70,18 @@ paths:
                   properties:
                     id:
                       type: integer
-                    course:
-                      type: string
                     title: 
                       type: string
                     author:
                       type: string
-                    head_of_study_program: 
+                    course:
                       type: string
-                    creator_user_id:
+                    position: 
                       type: integer
+                    code:
+                      type: string
+                    description:
+                      type: string
         '400':
           description: Bad request
           content:
@@ -93,6 +92,7 @@ paths:
                   message:
                     type: string
   
+  # llo
   /syllabus/llo:
     get:
       summary: Get all lesson learning outcomes
@@ -208,7 +208,7 @@ paths:
                   example: "1"
       responses:
         '200':
-          description: Succesfully create course learning outcome
+          description: Succesfully create coruse learning outcome
         '401':
           description: Syllabus not found
         '409':
@@ -274,6 +274,7 @@ paths:
         '409':
           description: Conflict - invalid duplicates
 
+  # learning-plan
   /learning-plan:
     get:
       summary: Get a learning plan

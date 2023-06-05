@@ -5,7 +5,7 @@ info:
   description: OpenAPI for Course Class API
 services:
   - url: https://localhost:8000
-    description: Syallabus Service API Server
+    description: Syllabus Service API Server
 paths:
   /syllabi:
     get:
@@ -13,7 +13,7 @@ paths:
       description: View all syllabi from database
       responses:
         '200':
-          description: Succesfully get all syllabi
+          description: Successfully get all syllabi
           content: 
             application/json: 
               schema: 
@@ -33,9 +33,9 @@ paths:
             schema:
               type: object
               properties:
-                id: 
-                  type: integer
-                  description: The course's id
+                course: 
+                  type: string
+                  description: The course's name
                   example: 1
                 title: 
                   type: string
@@ -46,9 +46,12 @@ paths:
                 head_of_study_program:
                   type: string
                   description: The syllabus's head_of_study_program
+                creator_user_id:
+                  type: integer
+                  description: The creator user's id
       responses:
         '200':
-          description: Succesfully create syallabus
+          description: Successfully create syllabus
         '401':
           description: Syllabus not found
         '409':
@@ -60,7 +63,7 @@ paths:
       description: View syllabi from database
       responses:
         '200':
-          description: Succesfully get syllabi
+          description: Successfully get syllabi
           content: 
             application/json: 
               schema: 
@@ -70,18 +73,16 @@ paths:
                   properties:
                     id:
                       type: integer
+                    course:
+                      type: string
                     title: 
                       type: string
                     author:
                       type: string
-                    course:
+                    head_of_study_program: 
                       type: string
-                    position: 
+                    creator_user_id:
                       type: integer
-                    code:
-                      type: string
-                    description:
-                      type: string
         '400':
           description: Bad request
           content:
@@ -92,10 +93,7 @@ paths:
                   message:
                     type: string
   
-  
-  
-  
-  /syallabus/llo:
+  /syllabus/llo:
     get:
       summary: Get all lesson learning outcomes
       description: View all lesson learning outcomes from database
@@ -210,7 +208,7 @@ paths:
                   example: "1"
       responses:
         '200':
-          description: Succesfully create coruse learning outcome
+          description: Succesfully create course learning outcome
         '401':
           description: Syllabus not found
         '409':

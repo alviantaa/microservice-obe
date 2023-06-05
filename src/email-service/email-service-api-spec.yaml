@@ -5,7 +5,7 @@ info:
 servers:
   - url: http://{{baseurl}}
 paths:
-  /email:
+  /emails:
     post:
       summary: send email
       requestBody:
@@ -15,21 +15,39 @@ paths:
               type: object
               properties:
                 to:
-                  type: string
-                email_subject:
+                  type: array
+                    items:
+                      type: string
+                cc:
+                  type: array
+                    items:
+                      type: string
+                bcc:
+                  type: array
+                    items:
+                      type: string
+                subject:
                   type: string
                   example: ini email subject
-                email_body:
+                html:
+                  type: string
+                  example: halo {{user_name}}! {{user_email}} is your email.
+                text:
                   type: string
                   example: halo {{user_name}}! {{user_email}} is your email.
                 attachment:
-                  type: string
-                  format: binary
+                  type: array
+                    items:
+                      type: string
+                      format: binary
                 data:
                   type: string
-                  format: binary
+                  example: {"user_name": daffa, "user_email": "wkwk@domain.com"}.
+              required:
+                - to
+                - subject
       responses:
-        '200':
+          '200':
             description: OK
             headers:
               Content-Type:
@@ -57,7 +75,81 @@ paths:
                 example:
                   status: error
                   message: internal server error
-  /email-debug:
+    get:
+      summary: get emails
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: search
+          in: query
+          schema:
+            type: string
+          example: keren
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                message: get emails success
+                data:
+                  emails:
+                    - _id: 6478caf5d2e2705308b376d3
+                      to:
+                        - daf@gmail.com
+                        - dnabil@test.com
+                      cc: []
+                      bcc: []
+                      subject: keren
+                      text: halo prapuan! prapuan@gmail.com is your email.
+                      html: halo {{user_name}}! {{user_email}} is your email.
+                      accepted:
+                        - daf@gmail.com
+                        - dnabil@test.com
+                      rejected: []
+                      messageId: <a3e11291-39b3-5ecb-144b-67551071d6b3@example.com>
+                      status: SENT
+                      createdAt: '2023-06-01T16:44:37.924Z'
+                      __v: 0
+                      updatedAt: '2023-06-01T17:03:11.107Z'
+                  info:
+                    pagination:
+                      limit: 1
+                      page: 1
+                      totalElement: 3
+                      totalPages: 3
+                    search: keren
+        '404':
+          description: Not Found
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: fail
+                message: it's empty in here
+  /emails/debug:
     post:
       summary: email debug
       requestBody:
@@ -67,19 +159,37 @@ paths:
               type: object
               properties:
                 to:
-                  type: string
-                email_subject:
+                  type: array
+                    items:
+                      type: string
+                cc:
+                  type: array
+                    items:
+                      type: string
+                bcc:
+                  type: array
+                    items:
+                      type: string
+                subject:
                   type: string
                   example: ini email subject
-                email_body:
+                html:
+                  type: string
+                  example: halo {{user_name}}! {{user_email}} is your email.
+                text:
                   type: string
                   example: halo {{user_name}}! {{user_email}} is your email.
                 attachment:
-                  type: string
-                  format: binary
+                  type: array
+                    items:
+                      type: string
+                      format: binary
                 data:
                   type: string
-                  format: binary
+                  example: {"user_name": daffa, "user_email": "wkwk@domain.com"}.
+              required:
+                - to
+                - subject
       responses:
         '200':
           description: OK
@@ -96,10 +206,18 @@ paths:
                 status: success
                 message: email sent
                 data:
-                  to:
-                    - daffa@gmail.com
-                  email_subject: ini email subject
-                  email_body: halo daffa! daffa@gmail.com is your email
+                  email:
+                    to:
+                      - daffa@gmail.com
+                    email_subject: ini email subject
+                    text: halo daffa! wkwk@domain.com is your email
+                    html: halo daffa! wkwk@domain.com is your email
+                    attachments:
+                      - filename: file.txt
+                        content:
+                          type: Buffer
+                          data:
+                            - 49
         '500':
           description: Internal Server Error
           headers:
@@ -114,3 +232,160 @@ paths:
               example:
                 status: error
                 message: internal server error
+  /emails/resend:
+    post:
+      summary: resend email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                id: 6478caf5d2e2705308b376d3
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                message: resend success
+                data:
+                  accepted:
+                    - daf@gmail.com
+                    - dnabil@test.com
+                  rejected: []
+                  ehlo:
+                    - SIZE 5242880
+                    - PIPELINING
+                    - ENHANCEDSTATUSCODES
+                    - 8BITMIME
+                    - DSN
+                    - AUTH PLAIN LOGIN CRAM-MD5
+                  envelopeTime: 1064
+                  messageTime: 491
+                  messageSize: 664
+                  response: '250 2.0.0 Ok: queued'
+                  envelope:
+                    from: from@example.com
+                    to:
+                      - daf@gmail.com
+                      - dnabil@test.com
+                  messageId: <db15108e-9c7d-b981-9da6-6b407a034988@example.com>
+        '409':
+          description: Conflict
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: fail
+                message: email has already been sent
+  /emails/{id}:
+    delete:
+      parameters:
+        - name: id
+          in: path
+          description: ID of the email
+          required: true
+          schema:
+            type: string
+      summary: delete by id
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                message: delete success
+                data: {}
+        '404':
+          description: Not Found
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: fail
+                message: email not found
+    get:
+      parameters:
+        - name: id
+          in: path
+          description: ID of the email
+          required: true
+          schema:
+            type: string
+      summary: get email by id
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                message: email found
+                data:
+                  _id: 6478cb74d2e2705308b376da
+                  to:
+                    - daf@gmail.com
+                    - dnabil@test.com
+                  cc: []
+                  bcc: []
+                  subject: keren2
+                  text: halo prapuan! prapuan@gmail.com is your email.
+                  html: halo {{user_name}}! {{user_email}} is your email.
+                  accepted:
+                    - daf@gmail.com
+                    - dnabil@test.com
+                  rejected: []
+                  messageId: <e9e31723-71dd-4f70-5c0d-3b9cf9cc2904@example.com>
+                  status: SENT
+                  createdAt: '2023-06-01T16:46:44.114Z'
+                  __v: 0
+        '404':
+          description: Not Found
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: fail
+                message: email not found

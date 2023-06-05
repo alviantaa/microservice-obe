@@ -21,3 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('syllabi', App\Http\Controllers\SyllabusController::class);
+Route::apiResource('syllabus/llo', App\Http\Controllers\LessonLearningOutcome::class);
+Route::apiResource('syllabus/ilo', App\Http\Controllers\IntendedLearningOutcome::class);
+Route::apiResource('syllabus/clo', App\Http\Controllers\CourseLearningOutcome::class);
+Route::apiResource('learning-plan', App\Http\Controllers\CourseLearningOutcome::class);

@@ -34,7 +34,8 @@ class SyllabusController extends Controller
      */
     public function store(StoreSyllabusRequest $request)
     {
-        //
+        $validated = $request->validated();
+        return new SyllabusResource(Syllabus::create($validated));
     }
 
     /**
@@ -42,7 +43,8 @@ class SyllabusController extends Controller
      */
     public function show(Syllabus $syllabus)
     {
-        //
+        $syllabus->load('studyProgram');
+        return new SyllabusResource($syllabus);
     }
 
     /**
@@ -58,7 +60,13 @@ class SyllabusController extends Controller
      */
     public function update(UpdateSyllabusRequest $request, Syllabus $syllabus)
     {
-        //
+        $validated = $request->validated();
+        if (empty($validated)) {
+            return response()->json(['message' => 'Not modified'], 304);
+        }
+
+        $syllabus->update($validated);
+        return new SyllabusResource($syllabus);
     }
 
     /**
@@ -66,6 +74,9 @@ class SyllabusController extends Controller
      */
     public function destroy(Syllabus $syllabus)
     {
-        //
+        $syllabus->delete();
+        return response()->json([
+            'message' => 'Resource deleted'
+        ]);
     }
 }

@@ -157,7 +157,7 @@ class AccountTest extends TestCase
         $password = "asdfasdf";
         $role = "student";
 
-        User::create([
+        $user = User::create([
             'name' => $name,
             'email' => $email,
             'password' => bcrypt($password),
@@ -168,8 +168,9 @@ class AccountTest extends TestCase
             'student_id_number' => 'nimuser1'
         ]);
 
-        $user = User::find(1);
-        $token = auth()->login($user);
+
+        $userdb = User::find($user->id);
+        $token = auth()->login($userdb);
 
         $new_email = "user1_NewEmail@example.com";
         $new_name = "user1_NewName";

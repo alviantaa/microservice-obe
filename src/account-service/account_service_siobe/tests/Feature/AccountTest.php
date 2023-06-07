@@ -97,7 +97,7 @@ class AccountTest extends TestCase
         $password = "asdfasdf";
         $role = "student";
 
-        User::create([
+        $user = User::create([
             'name' => $name,
             'email' => $email,
             'password' => bcrypt($password),
@@ -108,8 +108,8 @@ class AccountTest extends TestCase
             'student_id_number' => 'nimuser1'
         ]);
 
-        $user = User::find(1);
-        $token = auth()->login($user);
+        $userdb = User::find($user->id);
+        $token = auth()->login($userdb);
 
         $response = $this->json('POST', '/api/auth/verify-email', [
             'token' => $token,
@@ -234,7 +234,7 @@ class AccountTest extends TestCase
         $password = "asdfasdf";
         $role = "student";
 
-        User::create([
+        $user = User::create([
             'name' => $name,
             'email' => $email,
             'password' => bcrypt($password),
@@ -245,8 +245,8 @@ class AccountTest extends TestCase
             'student_id_number' => 'nimuser1'
         ]);
 
-        $user = User::find(1);
-        $token = auth()->login($user);
+        $userdb = User::find($user->id);
+        $token = auth()->login($userdb);
 
         $new_password = "asdf1234";
         $new_password_confirmation = "asdf1234";
@@ -270,7 +270,7 @@ class AccountTest extends TestCase
         $password = "asdfasdf";
         $role = "student";
 
-        User::create([
+        $user = User::create([
             'name' => $name,
             'email' => $email,
             'password' => bcrypt($password),
@@ -281,8 +281,8 @@ class AccountTest extends TestCase
             'student_id_number' => 'nimuser1'
         ]);
 
-        $user = User::find(1);
-        $token = auth()->login($user);
+        $userdb = User::find($user->id);
+        $token = auth()->login($userdb);
 
         $response = $this->json('DELETE', '/api/auth/delete-account/1', [
             'token' => $token,
@@ -302,7 +302,7 @@ class AccountTest extends TestCase
         $password = "asdfasdf";
         $role = "student";
 
-        User::create([
+        $user = User::create([
             'name' => $name,
             'email' => $email,
             'password' => bcrypt($password),
@@ -313,8 +313,8 @@ class AccountTest extends TestCase
             'student_id_number' => 'nimuser1'
         ]);
 
-        $user = User::find(1);
-        $token = auth()->login($user);
+        $userdb = User::find($user->id);
+        $token = auth()->login($userdb);
 
         $response = $this->json('POST', '/api/auth/me', [
             'token' => $token,
@@ -336,7 +336,7 @@ class AccountTest extends TestCase
         $password = "asdfasdf";
         $role = "student";
 
-        User::create([
+        $user = User::create([
             'name' => $name,
             'email' => $email,
             'password' => bcrypt($password),
@@ -347,8 +347,8 @@ class AccountTest extends TestCase
             'student_id_number' => 'nimuser1'
         ]);
 
-        $user = User::find(1);
-        $token = auth()->login($user);
+        $userdb = User::find($user->id);
+        $token = auth()->login($userdb);
 
         $response = $this->json('POST', '/api/auth/logout', [
             'token' => $token,

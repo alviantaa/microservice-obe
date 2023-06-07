@@ -188,6 +188,7 @@ class AccountControl extends Controller
                 ]);
                 $user->update($reset);
                 $statusemail = "Success";
+
                 //untuk membuat link email verifikasi
                 $p = "";
                 $link = "http://127.0.0.1:8000/api/auth/verify-email?token=";
@@ -235,7 +236,6 @@ class AccountControl extends Controller
             ]);
         }
     }
-
 
     public function forgot_password(Request $request, User $user)
     {

@@ -25,22 +25,9 @@ class HttpClientService
         $response = $this->httpClient->get(new Uri("{$this->baseUri}/hello/{$name}"), [
             'headers' => ['Content-Type' => 'application/json']
         ]);
-        $body   = $response->getBody();
-        $object = \json_decode($body, null, 512, JSON_THROW_ON_ERROR);
 
-        return $object->message;
-    }
-
-    /**
-     * Get Goodbye String
-     */
-    public function getGoodbyeString(string $name): string
-    {
-        $response = $this->httpClient->get("{$this->baseUri}/goodbye/{$name}", [
-            'headers' => ['Content-Type' => 'application/json']
-        ]);
         $body   = $response->getBody();
-        $object = \json_decode($body, null, 512, JSON_THROW_ON_ERROR);
+        $object = json_decode($body, null, 512, JSON_THROW_ON_ERROR);
 
         return $object->message;
     }

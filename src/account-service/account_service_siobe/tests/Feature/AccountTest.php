@@ -14,7 +14,7 @@ class AccountTest extends TestCase
 {
     use RefreshDatabase, DatabaseMigrations, WithFaker;
 
-    public function test_get_user_profiles_is_successfull(): void
+    public function test_get_user_profiles_is_successful(): void
     {
         $name = "user1";
         $email = "user1@example.com";
@@ -65,7 +65,7 @@ class AccountTest extends TestCase
         ]);
     }
 
-    public function test_user_registration_is_successfull(): void
+    public function test_user_registration_is_successful(): void
     {
         $name = $this->faker->name;
         $email = $this->faker->unique()->safeEmail;
@@ -90,7 +90,7 @@ class AccountTest extends TestCase
         ]);
     }
 
-    public function test_user_email_verification_is_successfull(): void
+    public function test_user_email_verification_is_successful(): void
     {
         $name = "user1";
         $email = "user1@example.com";
@@ -150,7 +150,7 @@ class AccountTest extends TestCase
         );
     }
 
-    public function test_user_update_profile_is_successfull(): void
+    public function test_user_update_profile_is_successful(): void
     {
         $name = "user1";
         $email = "user1@example.com";
@@ -198,7 +198,7 @@ class AccountTest extends TestCase
                 'verification_link' => true,
             ]]);
     }
-    public function test_user_forgot_password_is_successfull(): void
+    public function test_user_forgot_password_is_successful(): void
     {
         $name = "user1";
         $email = "user1@example.com";
@@ -227,7 +227,7 @@ class AccountTest extends TestCase
         );
     }
 
-    public function test_user_reset_password_is_successfull(): void
+    public function test_user_reset_password_is_successful(): void
     {
         $name = "user1";
         $email = "user1@example.com";
@@ -263,7 +263,7 @@ class AccountTest extends TestCase
         );
     }
 
-    public function test_user_delete_account_is_successfull(): void
+    public function test_user_delete_account_is_successful(): void
     {
         $name = "user1";
         $email = "user1@example.com";
@@ -295,7 +295,7 @@ class AccountTest extends TestCase
         $this->assertSoftDeleted($user);
     }
 
-    public function test_me_token_is_successfull(): void
+    public function test_me_token_is_successful(): void
     {
         $name = "user1";
         $email = "user1@example.com";
@@ -329,7 +329,7 @@ class AccountTest extends TestCase
         );
     }
 
-    public function test_logout_is_successfull(): void
+    public function test_logout_is_successful(): void
     {
         $name = "user1";
         $email = "user1@example.com";

@@ -17,7 +17,7 @@ class ConsumerServiceHelloTest extends TestCase
      *
      * @throws \Exception
      */
-    public function testGetHelloString()
+    public function test_try_mock_server_is_successful()
     {
         $matcher = new Matcher();
 

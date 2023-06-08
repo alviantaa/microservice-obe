@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 class UnitTest extends TestCase
 {
 
-    public function test_automatic_link_generation_is_successfull(): void
+    public function test_implode_generated_link_is_successful(): void
     {
         $p = "";
         $link = "http://127.0.0.1:8000/api/auth/verify-email?token=";
@@ -18,7 +18,7 @@ class UnitTest extends TestCase
         $this -> assertEquals($generatedlink, $generatedlink);
     }
 
-    public function test_requested_ids_is_successfull(): void
+    public function test_requested_ids_explode_is_successful(): void
     {
         $request = "1-2-3-4-5";
         $ids = explode('-', $request);

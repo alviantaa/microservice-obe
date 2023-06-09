@@ -23,7 +23,7 @@ class HttpEmailService
             'headers' => ['Content-Type' => 'application/json'],
             'json' => [
                 'to' => ['recipient1@example.com'],
-                'subject' => 'Verify Email Address',
+                'subject' => 'Verify Email Address OR Reset Password',
                 'text' => 'auto_generated_link THIS EMAIL VERIFICATION LINK WILL EXPIRED IN 60 MINUTES',
             ],
         ]);

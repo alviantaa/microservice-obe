@@ -30,6 +30,8 @@ out/
 
 # Testing
 coverage/
+# pact file directory
+pacts/ 
 
 # Misc
 .env.local

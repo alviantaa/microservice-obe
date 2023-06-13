@@ -7,9 +7,13 @@
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/psr7": "^2.5",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
-        "laravel/tinker": "^2.8"
+        "laravel/tinker": "^2.8",
+        "php-http/message": "^1.16",
+        "psr/http-client": "^1.0",
+        "th3n3rd/cartesian-product": "^0.3.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -17,7 +21,8 @@
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
-        "phpunit/phpunit": "^10.1",
+        "pact-foundation/pact-php": "^8.1",
+        "phpunit/phpunit": "^10.2",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
@@ -25,6 +30,7 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
+
         }
     },
     "autoload-dev": {

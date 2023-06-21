@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="E:\kuliah\developer\Microservice\Grade-service\phpunit.xml" tests="5" assertions="7" errors="0" failures="2" skipped="0" time="0.422873">
+    <testsuite name="PhpPact Core Test Suite" tests="5" assertions="7" errors="0" failures="2" skipped="0" time="0.422873">
+      <testsuite name="Tests\Feature\StudentGradeFeatureTest" file="E:\kuliah\developer\Microservice\Grade-service\tests\Feature\StudentGradeFeatureTest.php" tests="4" assertions="6" errors="0" failures="1" skipped="0" time="0.129904">
+        <testcase name="testUserCanGetStudentGrade" file="E:\kuliah\developer\Microservice\Grade-service\tests\Feature\StudentGradeFeatureTest.php" line="21" class="Tests\Feature\StudentGradeFeatureTest" classname="Tests.Feature.StudentGradeFeatureTest" assertions="1" time="0.065934"/>
+        <testcase name="testUserCanCreateStudentGrade" file="E:\kuliah\developer\Microservice\Grade-service\tests\Feature\StudentGradeFeatureTest.php" line="37" class="Tests\Feature\StudentGradeFeatureTest" classname="Tests.Feature.StudentGradeFeatureTest" assertions="2" time="0.036531">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\StudentGradeFeatureTest::testUserCanCreateStudentGrade&#13;
+Unable to find JSON: &#13;
+&#13;
+[{
+    "data": {
+        "student_user_id": 1,
+        "assignment_id": "1"
+    }
+}]&#13;
+&#13;
+within response JSON:&#13;
+&#13;
+[{
+    "data": {
+        "id": 1,
+        "criteria_id": null,
+        "point": null,
+        "title": null,
+        "description": null
+    }
+}].&#13;
+&#13;
+
+Failed asserting that an array has the subset Array &amp;0 (
+    'data' =&gt; Array &amp;1 (
+        'student_user_id' =&gt; 1
+        'assignment_id' =&gt; '1'
+    )
+).
+--- Expected
++++ Actual
+@@ @@
+     'point' =&gt; NULL,
+     'title' =&gt; NULL,
+     'description' =&gt; NULL,
+-    'student_user_id' =&gt; 1,
+-    'assignment_id' =&gt; '1',
+   ),
+ )
+&#13;
+E:\kuliah\developer\Microservice\Grade-service\vendor\laravel\framework\src\Illuminate\Testing\Constraints\ArraySubset.php:83
+E:\kuliah\developer\Microservice\Grade-service\vendor\laravel\framework\src\Illuminate\Testing\Assert.php:36
+E:\kuliah\developer\Microservice\Grade-service\vendor\laravel\framework\src\Illuminate\Testing\AssertableJsonString.php:295
+E:\kuliah\developer\Microservice\Grade-service\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:641
+E:\kuliah\developer\Microservice\Grade-service\tests\Feature\StudentGradeFeatureTest.php:53
+E:\kuliah\developer\Microservice\Grade-service\vendor\laravel\framework\src\Illuminate\Foundation\Testing\TestCase.php:174</failure>
+        </testcase>
+        <testcase name="testUserCanUpdateStudentGrade" file="E:\kuliah\developer\Microservice\Grade-service\tests\Feature\StudentGradeFeatureTest.php" line="59" class="Tests\Feature\StudentGradeFeatureTest" classname="Tests.Feature.StudentGradeFeatureTest" assertions="1" time="0.013258"/>
+        <testcase name="testUserCanDeleteStudentGrade" file="E:\kuliah\developer\Microservice\Grade-service\tests\Feature\StudentGradeFeatureTest.php" line="87" class="Tests\Feature\StudentGradeFeatureTest" classname="Tests.Feature.StudentGradeFeatureTest" assertions="2" time="0.014180"/>
+      </testsuite>
+      <testsuite name="Tests\Feature\myGradeTest" file="E:\kuliah\developer\Microservice\Grade-service\tests\Feature\myGradeTest.php" tests="1" assertions="1" errors="0" failures="1" skipped="0" time="0.292969">
+        <testcase name="test_example" file="E:\kuliah\developer\Microservice\Grade-service\tests\Feature\myGradeTest.php" line="16" class="Tests\Feature\myGradeTest" classname="Tests.Feature.myGradeTest" assertions="1" time="0.292969">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\myGradeTest::test_example&#13;
+Expected response status code [200] but received 500.
+Failed asserting that 200 is identical to 500.
+&#13;
+E:\kuliah\developer\Microservice\Grade-service\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:123
+E:\kuliah\developer\Microservice\Grade-service\tests\Feature\myGradeTest.php:20
+E:\kuliah\developer\Microservice\Grade-service\vendor\laravel\framework\src\Illuminate\Foundation\Testing\TestCase.php:174</failure>
+        </testcase>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

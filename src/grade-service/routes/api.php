@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::scopeBindings()->group(function () {
-    Route::apiResource('student-grades', StudentGradeController::class);
-    Route::apiResource('my-grades/{id}', MyGradeController::class);
+
 });
 
